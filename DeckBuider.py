@@ -1,6 +1,6 @@
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QPushButton, QRadioButton, QFrame, QHBoxLayout, QGroupBox, QFileDialog, QMessageBox
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6 import uic
 import sys, os
 from PIL import Image, ImageDraw, ImageFont
@@ -18,6 +18,7 @@ class UI(QMainWindow):
         super(QMainWindow, self).__init__()
 
         uic.load_ui.loadUi(resource('DeckBuilder.ui'), self)
+        self.setWindowIcon(QIcon('icon.ico'))
 
         # Entrys
         self.MainTextEntry = self.findChild(QTextEdit, 'MainTextEntry')
@@ -159,6 +160,7 @@ class UI(QMainWindow):
             border.paste(cost, ((border.width - 85) - 60 * index, 40), mask)
             temp.close()
             cost.close()
+        main.close()
         return border
 
 
@@ -189,10 +191,12 @@ class UI(QMainWindow):
         if os.path.isfile(location[0]):
             dlg = QMessageBox.information(self, 'Success', 'Your file has been successfully saved!', QMessageBox.StandardButton.Ok)
             self.clear_all()
+            image.close()
         else:
             dlg = QMessageBox.critical(self, 'Failure', "Your file can't be saved!", QMessageBox.StandardButton.Retry | QMessageBox.StandardButton.Cancel)
             if dlg == QMessageBox.StandardButton.Cancel:
                 self.clear_all()
+                image.close()
 
 
 

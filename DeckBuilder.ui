@@ -626,9 +626,9 @@ border-color black
    <widget class="QTextEdit" name="CreatureNameEntry">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>320</x>
       <y>340</y>
-      <width>201</width>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -643,7 +643,7 @@ border-color black
      </rect>
     </property>
     <property name="text">
-     <string>Creature name and type</string>
+     <string>Creature name and type:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -652,11 +652,37 @@ border-color black
    <widget class="QTextEdit" name="CreatureTypeEntry">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>320</x>
       <y>380</y>
-      <width>201</width>
+      <width>151</width>
       <height>31</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>350</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>390</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Type:</string>
     </property>
    </widget>
   </widget>
