@@ -167,7 +167,7 @@ border-color black
    <widget class="QRadioButton" name="RedRadio">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>350</x>
       <y>40</y>
       <width>89</width>
       <height>20</height>
@@ -180,7 +180,7 @@ border-color black
    <widget class="QRadioButton" name="GreyRadio">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>350</x>
       <y>10</y>
       <width>89</width>
       <height>20</height>
@@ -193,7 +193,7 @@ border-color black
    <widget class="QRadioButton" name="YellowRadio">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>350</x>
       <y>70</y>
       <width>89</width>
       <height>20</height>
@@ -206,8 +206,8 @@ border-color black
    <widget class="QRadioButton" name="WhiteRadio">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>100</y>
+      <x>410</x>
+      <y>40</y>
       <width>89</width>
       <height>20</height>
      </rect>
@@ -262,9 +262,6 @@ border-color black
      <property name="text">
       <string/>
      </property>
-     <property name="pixmap">
-      <pixmap>C:/Users/mac-a/OneDrive/Pictures/avatar.jpg</pixmap>
-     </property>
      <property name="scaledContents">
       <bool>true</bool>
      </property>
@@ -281,8 +278,9 @@ border-color black
      <property name="font">
       <font>
        <family>Gabriola</family>
-       <pointsize>14</pointsize>
+       <pointsize>13</pointsize>
        <italic>false</italic>
+       <kerning>false</kerning>
       </font>
      </property>
      <property name="lineWidth">
@@ -319,8 +317,9 @@ border-color black
      <property name="font">
       <font>
        <family>Gabriola</family>
-       <pointsize>14</pointsize>
+       <pointsize>10</pointsize>
        <italic>true</italic>
+       <kerning>false</kerning>
       </font>
      </property>
      <property name="text">
@@ -361,9 +360,9 @@ border-color black
     <widget class="QGroupBox" name="GroupBox">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>130</x>
        <y>10</y>
-       <width>231</width>
+       <width>111</width>
        <height>21</height>
       </rect>
      </property>
@@ -384,18 +383,38 @@ border-color black
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>231</width>
+        <width>131</width>
         <height>20</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout"/>
      </widget>
     </widget>
-    <widget class="QLabel" name="CreatureLabel">
+    <widget class="QLabel" name="CreatureTypeLabel">
      <property name="geometry">
       <rect>
        <x>15</x>
        <y>229</y>
+       <width>231</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Gabriola</family>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="CreatureNameLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
        <width>231</width>
        <height>21</height>
       </rect>
@@ -416,7 +435,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>120</y>
+      <y>90</y>
       <width>201</width>
       <height>16</height>
      </rect>
@@ -429,7 +448,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>140</y>
+      <y>110</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -442,7 +461,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>140</y>
+      <y>110</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -455,7 +474,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>140</y>
+      <y>110</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -468,7 +487,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>140</y>
+      <y>110</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -481,7 +500,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>180</y>
+      <y>150</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -494,7 +513,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>180</y>
+      <y>150</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -507,7 +526,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>180</y>
+      <y>150</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -520,7 +539,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>220</y>
+      <y>190</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -533,7 +552,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>240</y>
+      <y>210</y>
       <width>201</width>
       <height>31</height>
      </rect>
@@ -546,7 +565,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>270</y>
+      <y>240</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -559,7 +578,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>290</y>
+      <y>260</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -572,7 +591,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>320</y>
+      <y>290</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -585,7 +604,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>180</y>
+      <y>150</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -598,17 +617,17 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>290</y>
+      <y>260</y>
       <width>121</width>
       <height>31</height>
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="CreatureEntry">
+   <widget class="QTextEdit" name="CreatureNameEntry">
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>370</y>
+      <y>340</y>
       <width>201</width>
       <height>31</height>
      </rect>
@@ -618,7 +637,7 @@ border-color black
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>340</y>
+      <y>310</y>
       <width>191</width>
       <height>20</height>
      </rect>
@@ -628,6 +647,16 @@ border-color black
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="CreatureTypeEntry">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>380</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
     </property>
    </widget>
   </widget>

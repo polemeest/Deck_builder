@@ -1,9 +1,10 @@
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QPushButton, QRadioButton, QFrame, QHBoxLayout, QGroupBox, QFileDialog
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QPushButton, QRadioButton, QFrame, QHBoxLayout, QGroupBox, QFileDialog, QMessageBox
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import QSize
 from PyQt6 import uic
 import sys, os
+from PIL import Image, ImageDraw, ImageFont
+
 
 def resource(relative_path):
     base_path = getattr(
@@ -22,7 +23,8 @@ class UI(QMainWindow):
         self.MainTextEntry = self.findChild(QTextEdit, 'MainTextEntry')
         self.FlavorTextEntry = self.findChild(QTextEdit, 'FlavorTextEntry')
         self.PowerHitEntry = self.findChild(QTextEdit, 'PowerHitEntry')
-        self.CreatureEntry = self.findChild(QTextEdit, 'CreatureEntry')
+        self.CreatureNameEntry = self.findChild(QTextEdit, 'CreatureNameEntry')
+        self.CreatureTypeEntry = self.findChild(QTextEdit, 'CreatureTypeEntry')
         # Buttons
         self.BlackBt = self.findChild(QPushButton, 'BlackBt')
         self.BlueBt = self.findChild(QPushButton, 'BlueBt')
@@ -50,7 +52,8 @@ class UI(QMainWindow):
         self.MainTextLabel = self.findChild(QLabel, 'MainTextLabel')
         self.TopImage = self.findChild(QLabel, 'TopImage')
         self.BottomImage = self.findChild(QLabel, 'BottomImage')
-        self.CreatureLabel = self.findChild(QLabel, 'CreatureLabel')
+        self.CreatureNameLabel = self.findChild(QLabel, 'CreatureNameLabel')
+        self.CreatureTypeLabel = self.findChild(QLabel, 'CreatureTypeLabel')
         # Frame
         self.Frame = self.findChild(QFrame, 'frame')
         # Layout
@@ -63,11 +66,12 @@ class UI(QMainWindow):
         self.MainTextEntry.textChanged.connect(lambda: self.input_text(self.MainTextEntry, self.MainTextLabel))
         self.FlavorTextEntry.textChanged.connect(lambda: self.input_text(self.FlavorTextEntry, self.FlavorTextLabel))
         self.PowerHitEntry.textChanged.connect(lambda: self.input_text(self.PowerHitEntry, self.PowerHitLabel))
-        self.CreatureEntry.textChanged.connect(lambda: self.input_text(self.CreatureEntry, self.CreatureLabel))
+        self.CreatureNameEntry.textChanged.connect(lambda: self.input_text(self.CreatureNameEntry, self.CreatureNameLabel))
+        self.CreatureTypeEntry.textChanged.connect(lambda: self.input_text(self.CreatureTypeEntry, self.CreatureTypeLabel))
 
         # connect btns
         self.CloseButton.clicked.connect(self.close)
-        self.SaveButton.clicked.connect(self.close)
+        self.SaveButton.clicked.connect(self.save)
         self.ImageButton.clicked.connect(self.insert_creature)
 
         self.BlackBt.clicked.connect(lambda: self.add_cost(self.BlackBt))
@@ -91,7 +95,8 @@ class UI(QMainWindow):
 
         # special vars
         self.cur_pixmap = ''
-        self.cur_color = ''
+        self.cur_color = 'images/BlackRadio.png'
+        self.cur_cost = []
 
 
         self.show()
@@ -103,34 +108,95 @@ class UI(QMainWindow):
 
 
     def insert_creature(self):
-        self.cur_pixmap = QFileDialog.getOpenFileName()[0]
+        self.cur_pixmap = QFileDialog.getOpenFileName(directory='./images/characters')[0]
         pic = QPixmap(self.cur_pixmap)
         self.BottomImage.setPixmap(pic)
 
 
     def add_cost(self, button: QPushButton):
-        self.cur_pixmap = f'images\{button.objectName()}.png'
-        pixmap = QPixmap(f'images\{button.objectName()}.png')
+        self.cur_cost.append(f'images\{button.objectName()}.jpg')
+        pixmap = QPixmap(f'images\{button.objectName()}.jpg')
         pixmap = pixmap.scaled(20, 20)
         label = QLabel(pixmap=pixmap)
-        print(button.objectName())
-
         self.HLayout.addWidget(label)
-        for child in self.GroupBox.children():
-            if isinstance(child, QLabel):
-                print(child.__getattribute__('pixmap'))
 
 
     def del_cost(self):
         for child in self.GroupBox.children():
             if isinstance(child, QLabel):
                 child.deleteLater()
+                self.cur_cost.pop()
 
 
     def input_text(self, entry: QTextEdit, label: QLabel):
         label.setWordWrap(True)
         label.setText(entry.toPlainText())
 
-myapp = QApplication(sys.argv)
-UIwindow = UI()
-myapp.exec()
+
+    def clear_all(self):
+        self.del_cost()
+        for child in self.__dict__.values():
+            if isinstance(child, QTextEdit):
+                child.clear()
+        self.cur_pixmap = ''
+        self.BottomImage.setPixmap(QPixmap())
+
+
+    def paste_images(self):
+        # init a colored border
+        with Image.open(self.cur_color) as bor:
+            border = bor.copy().convert(mode='RGBA')
+        # pasting central image
+        with Image.open(self.cur_pixmap) as mai:
+            main = mai.copy().resize((808, 593))
+        with Image.open('images\mask.png') as mask:
+            mask = mask.resize((50, 50)).convert('L')
+        border.paste(main, (35, 113))
+        # pasting cost
+        for index, item in enumerate(self.cur_cost):
+            temp = Image.open(item)
+            cost = temp.resize((50, 50)).copy()
+            border.paste(cost, ((border.width - 85) - 60 * index, 40), mask)
+            temp.close()
+            cost.close()
+        return border
+
+
+    def draw_text(self, image):
+        # pasting text
+        texts = ImageDraw.Draw(image)
+        main_font = ImageFont.truetype(r'C:\Windows\Fonts\Gabriola.ttf', 65)
+        flavor_font = ImageFont.truetype(r'C:\Windows\Fonts\Crimson-Italic.ttf', 40)
+        pwrhit_font = ImageFont.truetype(r'C:\Windows\Fonts\Crimson-Italic.ttf', 55)
+        # main block
+        texts.text((55, 810), f'''{self.MainTextEntry.toPlainText()}''', (0,0,0), font=main_font)
+        texts.line((80, 1050, 800, 1050), fill=(2, 2, 2), width=1)
+        texts.text((55, 1070), f'''{self.FlavorTextEntry.toPlainText()}''', (0,0,0), font=flavor_font)
+        # stats and creature type
+        texts.text((700, 1172), f'''{self.PowerHitEntry.toPlainText()}''', (0,0,0), font=pwrhit_font, align='center')
+        texts.text((50, 35), f'''{self.CreatureNameEntry.toPlainText()}''', (0,0,0), font=main_font)
+        texts.text((50, 720), f'''{self.CreatureTypeEntry.toPlainText()}''', (0,0,0), font=main_font)
+
+
+    def save(self):
+        # init a destination
+        location = QFileDialog.getSaveFileName(self, 'Save As', './images/characters', filter='*.png')
+        # call for pillow
+        image = self.paste_images()
+        self.draw_text(image)
+        # saving and checking file
+        image.save(location[0], quality=95)
+        if os.path.isfile(location[0]):
+            dlg = QMessageBox.information(self, 'Success', 'Your file has been successfully saved!', QMessageBox.StandardButton.Ok)
+            self.clear_all()
+        else:
+            dlg = QMessageBox.critical(self, 'Failure', "Your file can't be saved!", QMessageBox.StandardButton.Retry | QMessageBox.StandardButton.Cancel)
+            if dlg == QMessageBox.StandardButton.Cancel:
+                self.clear_all()
+
+
+
+if __name__ == '__main__':
+    myapp = QApplication(sys.argv)
+    UIwindow = UI()
+    myapp.exec()
